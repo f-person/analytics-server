@@ -9,19 +9,23 @@ type Event struct {
 	ID    primitive.ObjectID `json:"id"              bson:"_id"`
 	Name  string             `json:"name"            bson:"name"`
 	Data  map[string]string  `json:"data,omitempty"  bson:"data,omitempty"`
-	AppID string             `json:"appId,omitempty" bson:"appId,omitempty"`
+	AppID primitive.ObjectID `json:"appId,omitempty" bson:"appId,omitempty"`
 }
 
 func (e *Event) ToDomain() domain.Event {
 	return domain.Event{
-		Name: e.Name,
-		Data: e.Data,
+		ID:    e.ID.String(),
+		Name:  e.Name,
+		Data:  e.Data,
+		AppID: e.AppID.String(),
 	}
 }
 
 func EventFromDomain(event domain.Event) Event {
 	return Event{
-		Name: event.Name,
-		Data: event.Data,
+		ID:    objectIDFromString(event.ID),
+		Name:  event.Name,
+		Data:  event.Data,
+		AppID: objectIDFromString(event.AppID),
 	}
 }

@@ -6,15 +6,18 @@ import (
 )
 
 type eventsDB struct {
-	mongoClient *mongo.Client
+	collection *mongo.Collection
 }
 
 func NewEventsDB(mongoClient *mongo.Client) eventsDB {
+	collection := mongoClient.Database(dbName).Collection(eventsCollectionName)
+
 	return eventsDB{
-		mongoClient: mongoClient,
+		collection: collection,
 	}
 }
 
 func (e eventsDB) CreateEvent(event domain.Event) (domain.Event, error) {
+
 	return domain.Event{}, nil
 }
